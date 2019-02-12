@@ -63,10 +63,14 @@ public class MultipleSecurityConfiguration {
         @Override
         @Bean("apiUserDetailsService")
         protected UserDetailsService userDetailsService() {
-            UserDetails user = new User("apiuser",
-                    passwordEncoder.encode("pass"),
-                    AuthorityUtils.createAuthorityList("API_USER"));
-            return new InMemoryUserDetailsManager(user);
+            return new InMemoryUserDetailsManager(
+                    User.builder()
+                            .passwordEncoder(passwordEncoder::encode)
+                            .username("apiuser")
+                            .password("pass")
+                            .roles("API")
+                            .build()
+            );
         }
 
         @Bean
@@ -99,7 +103,7 @@ public class MultipleSecurityConfiguration {
 
         @Override
         public void configure(final WebSecurity web) {
-            web.ignoring().antMatchers("/assets/**");
+            web.ignoring().antMatchers("/non-secure/**");
         }
 
         @Override
@@ -111,10 +115,14 @@ public class MultipleSecurityConfiguration {
         @Override
         @Bean("formUserDetailsService")
         protected UserDetailsService userDetailsService() {
-            UserDetails user = new User("user",
-                    passwordEncoder.encode("pass"),
-                    AuthorityUtils.createAuthorityList("USER"));
-            return new InMemoryUserDetailsManager(user);
+            return new InMemoryUserDetailsManager(
+                    User.builder()
+                            .passwordEncoder(passwordEncoder::encode)
+                            .username("user")
+                            .password("pass")
+                            .roles("USER")
+                            .build()
+            );
         }
     }
 
