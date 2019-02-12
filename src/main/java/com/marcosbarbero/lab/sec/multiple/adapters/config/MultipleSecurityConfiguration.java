@@ -29,8 +29,7 @@ public class MultipleSecurityConfiguration {
 
     @Configuration
     @Order(ORDER)
-    static
-    class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    static class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         static final int ORDER = 1;
 
