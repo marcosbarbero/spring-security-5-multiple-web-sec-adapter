@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/me")
-public class UserController {
+@RequestMapping("/api/profile/me")
+public class ApiController {
 
     @GetMapping
     public ResponseEntity<Principal> get(final Principal principal) {
