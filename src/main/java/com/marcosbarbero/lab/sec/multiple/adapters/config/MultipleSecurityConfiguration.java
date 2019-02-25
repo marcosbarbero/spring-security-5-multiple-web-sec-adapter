@@ -15,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static com.marcosbarbero.lab.sec.multiple.adapters.config.MultipleSecurityConfiguration.ApiSecurityConfiguration.ORDER;
 
@@ -41,16 +43,14 @@ public class MultipleSecurityConfiguration {
 
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
-            http.antMatcher("/api/**")
-                .httpBasic()
-            .and()
-                .authorizeRequests()
-                .antMatchers("/api/**").authenticated();
-        }
-
-        @Override
-        public void configure(final WebSecurity web) throws Exception {
-            super.configure(web);
+            http
+                    .authorizeRequests()
+                    .antMatchers("/api/**")
+                    .authenticated();
+//            .and()
+////                    .addFilterBefore(new OAuth2ClientAuthenticationProcessingFilter(), BasicAuthenticationFilter.class)
+//                    .authorizeRequests()
+//                    .antMatchers("/api/**").authenticated();
         }
 
         @Override
@@ -96,7 +96,7 @@ public class MultipleSecurityConfiguration {
                     .formLogin()
                     .permitAll()
                     .successForwardUrl("/welcome")
-                .and()
+                    .and()
                     .authorizeRequests().antMatchers("/**").authenticated();
         }
 
